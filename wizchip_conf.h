@@ -75,8 +75,7 @@ extern "C" {
 
 
 #ifndef _WIZCHIP_
-// NOTE_LIHAN: Some sections of this code are not yet fully defined.
-#define _WIZCHIP_                      W6300   // W5100, W5100S, W5200, W5300, W5500, 6300
+#define _WIZCHIP_                      W5500
 #endif
 
 //
@@ -132,53 +131,10 @@ extern "C" {
 
 
 
-#if   (_WIZCHIP_ == W5100)
-#define _WIZCHIP_ID_                "W5100\0"
-/**
-    @brief Define interface mode.
-    @todo you should select interface mode as chip. Select one of @ref \_WIZCHIP_IO_MODE_SPI_ , @ref \_WIZCHIP_IO_MODE_BUS_DIR_ or @ref \_WIZCHIP_IO_MODE_BUS_INDIR_
-*/
-// 	#define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_BUS_DIR_
-//	#define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_BUS_INDIR_
-#define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_SPI_
-
-//A20150601 : Define the unit of IO DATA.
-typedef   uint8_t   iodata_t;
-//A20150401 : Indclude W5100.h file
-#include "W5100/w5100.h"
-
-#elif (_WIZCHIP_ == W5100S)
-#define _WIZCHIP_ID_                "W5100S\0"
-/**
-    @brief Define interface mode.
-    @todo you should select interface mode as chip. Select one of @ref \_WIZCHIP_IO_MODE_SPI_ , @ref \_WIZCHIP_IO_MODE_BUS_DIR_ or @ref \_WIZCHIP_IO_MODE_BUS_INDIR_
-*/
-#if 0
-#define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_BUS_INDIR_
-#elif 0
-#define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_SPI_5500_
-#else
-#define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_SPI_
+#if (_WIZCHIP_ != W5500)
+#error "This driver supports W5500 only."
 #endif
 
-//A20150601 : Define the unit of IO DATA.
-typedef   uint8_t   iodata_t;
-//A20150401 : Indclude W5100.h file
-#include "W5100S/w5100s.h"
-#elif (_WIZCHIP_ == W5200)
-#define _WIZCHIP_ID_                "W5200\0"
-/**
-    @brief Define interface mode.
-    @todo you should select interface mode as chip. Select one of @ref \_WIZCHIP_IO_MODE_SPI_ or @ref \	_WIZCHIP_IO_MODE_BUS_INDIR_
-*/
-#ifndef _WIZCHIP_IO_MODE_
-// #define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_BUS_INDIR_
-#define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_SPI_
-#endif
-//A20150601 : Define the unit of IO DATA.
-typedef   uint8_t   iodata_t;
-#include "W5200/w5200.h"
-#elif (_WIZCHIP_ == W5500)
 #define _WIZCHIP_ID_                 "W5500\0"
 
 /**
@@ -200,97 +156,7 @@ typedef   uint8_t   iodata_t;
 #endif
 //A20150601 : Define the unit of IO DATA.
 typedef   uint8_t   iodata_t;
-#include "W5500/w5500.h"
-#elif ( _WIZCHIP_ == W5300)
-#define _WIZCHIP_ID_                 "W5300\0"
-/**
-    @brief Define interface mode.
-    @todo you should select interface mode as chip. Select one of @ref \_WIZCHIP_IO_MODE_SPI_ , @ref \_WIZCHIP_IO_MODE_BUS_DIR_ or @ref \_WIZCHIP_IO_MODE_BUS_INDIR_
-*/
-#ifndef _WIZCHIP_IO_MODE_
-#define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_BUS_DIR_
-// #define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_BUS_INDIR_
-#endif
-
-//A20150601 : Define the unit and bus width of IO DATA.
-/**
-    @brief Select the data width 8 or 16 bits.
-    @todo you should select the bus width. Select one of 8 or 16.
-*/
-#ifndef _WIZCHIP_IO_BUS_WIDTH_
-#define _WIZCHIP_IO_BUS_WIDTH_       16  // 8
-#endif
-#if _WIZCHIP_IO_BUS_WIDTH_ == 8
-typedef   uint8_t   iodata_t;
-#elif _WIZCHIP_IO_BUS_WIDTH_ == 16
-typedef   uint16_t   iodata_t;
-#else
-#error "Unknown _WIZCHIP_IO_BUS_WIDTH_. It should be 8 or 16."
-#endif
-//
-#include "W5300/w5300.h"
-
-
-#elif ( _WIZCHIP_ == W6100)
-
-#define _WIZCHIP_ID_                "W6100\0"
-
-/**
-    @brief Define @ref _WIZCHIP_ interface mode.
-    @todo You should select interface mode of @ref _WIZCHIP_.\n\n
-        Select one of @ref _WIZCHIP_IO_MODE_SPI_VDM_, @ref _WIZCHIP_IO_MODE_SPI_FDM_, and @ref _WIZCHIP_IO_MODE_BUS_INDIR_
-    @sa WIZCHIP_READ(), WIZCHIP_WRITE(), WIZCHIP_READ_BUF(), WIZCHIP_WRITE_BUF()
-*/
-#if 1
-// 20231103 taylor
-#define _WIZCHIP_IO_MODE_           _WIZCHIP_IO_MODE_SPI_VDM_
-#elif 0
-#define _WIZCHIP_IO_MODE_         _WIZCHIP_IO_MODE_SPI_VDM_
-#else
-#define _WIZCHIP_IO_MODE_         _WIZCHIP_IO_MODE_SPV_FDM_
-#endif
-
-typedef   uint8_t   iodata_t;       ///< IO access unit. bus width
-typedef   int16_t   datasize_t;     ///< sent or received data size
-#include "./W6100/w6100.h"
-#include "../Application/Application.h"
-
-//teddy 240122
-#elif ( _WIZCHIP_ == W6300)
-
-#define _WIZCHIP_ID_                "W6300\0"
-
-
-
-
-/**
-    @brief Define @ref _WIZCHIP_ interface mode.
-    @todo You should select interface mode of @ref _WIZCHIP_.\n\n
-        Select one of @ref _WIZCHIP_IO_MODE_SPI_QSPI_, @ref _WIZCHIP_IO_MODE_SPI_VDM_,@ref _WIZCHIP_IO_MODE_BUS_INDIR_
-    @sa WIZCHIP_READ(), WIZCHIP_WRITE(), WIZCHIP_READ_BUF(), WIZCHIP_WRITE_BUF()
-*/
-
-#define QSPI_SINGLE_MODE            (0x00 << 6) // 0b0000 0000 // 0x00
-#define QSPI_DUAL_MODE              (0x01 << 6) // 0b0100 0000 // 0x40
-#define QSPI_QUAD_MODE              (0x02 << 6) // 0b1000 0000 // 0x80 
-
-#ifndef _WIZCHIP_QSPI_MODE_
-#define _WIZCHIP_QSPI_MODE_          QSPI_SINGLE_MODE
-#endif
-
-//#define _WIZCHIP_IO_MODE_         _WIZCHIP_IO_MODE_BUS_INDIR_
-#define _WIZCHIP_IO_MODE_           ((_WIZCHIP_IO_MODE_SPI_ & 0xff00) | (_WIZCHIP_QSPI_MODE_ & 0x00ff))
-
-
-
-typedef   uint8_t   iodata_t;       ///< IO access unit. bus width
-typedef   int16_t   datasize_t;     ///< sent or received data size
-#include "./W6300/w6300.h"
-#include "../Application/Application.h"
-
-#else
-#error "Unknown defined _WIZCHIP_. You should define one of 5100, 5200, 5300, 5500, 6100 and 6300!!!"
-#endif
+#include "w5500.h"
 
 #ifndef _WIZCHIP_IO_MODE_
 #error "Undefined _WIZCHIP_IO_MODE_. You should define it !!!"
