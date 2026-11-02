@@ -692,11 +692,12 @@ int32_t recv(uint8_t sn, uint8_t * buf, uint16_t len) { //lihan
                 return SOCK_BUSY;
             }
 #else
-            if (sock_io_mode & (1 << sn)) {
-                return SOCK_BUSY;
-            }
+            /* Pending IPv4 data must be consumed even in nonblocking mode. */
             if (recvsize != 0) {
                 break;
+            }
+            if (sock_io_mode & (1 << sn)) {
+                return SOCK_BUSY;
             }
 #endif
         };
